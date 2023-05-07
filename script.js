@@ -1,7 +1,4 @@
-
-//Definimos la función 
-
-function calcularPrecio(valorProducto, codigoPromocional, cuotas) {
+function calcularPrecioProducto(valorProducto, codigoPromocional, cuotas) {
     // Definimos variable para descuento
     let descuento = 0;
   
@@ -21,57 +18,63 @@ function calcularPrecio(valorProducto, codigoPromocional, cuotas) {
     let precioDescuento = precioBase - (precioBase * descuento);
   
     // Calculamos valor de las cuotas
-    let valorCuota = precioDescuento/ cuotas;
-
+    let valorCuota = precioDescuento / cuotas;
+  
     // Si se ingresa más de 3 cuotas, se agrega un interés del 15%
     if (cuotas > 3) {
-    precioDescuento = precioDescuento * 1.15;
-    valorCuota = precioDescuento / cuotas;
+      precioDescuento = precioDescuento * 1.15;
+      valorCuota = precioDescuento / cuotas;
     }
   
     // Devolvemos precio con descuentos, y valor de las cuotas
-   return [precioDescuento, valorCuota];
+    return [precioDescuento, valorCuota];
   }
 
-// Definimos un array vacío para almacenar los productos
-let productos = [];
+  
+function calcularPrecio() {
+    //creamos un array vacío para ir acumulando los productos que ingrese el usuario
+    let productos = [];
+  
+    let continuar = true;
+    let producto = 1;
 
 
-let continuar = true;
-let producto = 1;
+    //creamos un ciclo While, para que mientras el usuario desee seguir agregando productos, se vuelva a pedir el ingreso de los datos.
+    while (continuar) {
+      // Solicitamos al usuario el precio inicial del producto. Usamos parseFloat ya que este valor puede tener decimales
+      const precioBase = parseFloat(prompt(`Ingrese el precio base del producto número ${producto}`));
   
-while (continuar) {
-    // Solicitamos al usuario el precio inicial del producto. Usamos parseFloat ya que este valor puede tener decimales
-    const precioBase = parseFloat(prompt(`Ingrese el precio base del producto número ${producto}`));
+      // Solicitamos al usuario el código de descuento
+      const codigoDescuento = prompt(`Ingrese el código de descuento para el producto ${producto} (DESC10, DESC20 O DESC30)`);
   
-    // Solicitamos al usuario el código de descuento
-    const codigoDescuento = prompt(`Ingrese el código de descuento para el producto ${producto} (DESC10, DESC20 O DESC30)`);
+      // Solicitamos al usuario la cantidad de cuotas
+      const cuotas = parseInt(prompt(`Ingrese la cantidad de cuotas para el producto ${producto} (Hasta 3 cuotas sin interés | 15% INTERÉS EN MÁS DE 3 CUOTAS.)`));
   
-    // Solicitamos al usuario la cantidad de cuotas
-    const cuotas = parseInt(prompt(`Ingrese la cantidad de cuotas para el producto ${producto} (Hasta 3 cuotas sin interés | 15% INTERÉS EN MÁS DE 3 CUOTAS.)`));
+      // Llamamos a la función calcularPrecio con los valores ingresados por el usuario
+      const precioFinal = calcularPrecioProducto(precioBase, codigoDescuento, cuotas);
   
-    // Llamamos a la función calcularPrecio con los valores ingresados por el usuario
-    const precioFinal = calcularPrecio(precioBase, codigoDescuento, cuotas);
-  
-    // Mostramos el precio final al usuario
-    alert(`El precio final del producto número ${producto} abonando en ${cuotas} cuotas es de $${precioFinal[0].toFixed(2)}, y el valor de las cuotas es de $${precioFinal[1].toFixed(2)} cada una.`);
-
-    productos.push({
+      productos.push({
         precioFinal: precioFinal[0],
         valorCuota: precioFinal[1]
       });
-
-    // Preguntamos al usuario si quiere ingresar otro producto
-    continuar = confirm("¿Desea calcular el precio de otro producto?");
-    producto++;
-}
-
-// Mostramos los resultados de todos los productos ingresados
-let mensaje = "Tus productos:";
-
-for (let i = 0; i < productos.length; i++) {
-  mensaje += `\nProducto ${i + 1} - \nPrecio final: $${productos[i].precioFinal.toFixed(2)} - Valor de las cuotas: $${productos[i].valorCuota.toFixed(2)} cada una`;
-}
-
-alert(mensaje);
   
+      // Preguntamos al usuario si quiere ingresar otro producto
+      continuar = confirm("¿Desea calcular el precio de algún otro producto?");
+      producto++;
+    }
+  
+    return productos;
+  }
+  
+
+  // Llamamos a la función y almacenamos el array de productos devuelto en una variable
+  let productos = calcularPrecio();
+  
+  // Mostramos los resultados de todos los productos ingresados
+  let mensaje = "Tus productos:\n";
+  
+  for (let i = 0; i < productos.length; i++) {
+    mensaje += `Producto ${i + 1} - Precio final: $${productos[i].precioFinal.toFixed(2)} - Valor de las cuotas: $${productos[i].valorCuota.toFixed(2)} cada una\n`;
+  }
+  
+  alert(mensaje);

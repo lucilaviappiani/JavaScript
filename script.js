@@ -47,11 +47,16 @@ function calcularPrecio() {
       // Solicitamos al usuario el código de descuento
       const codigoDescuento = prompt(`Ingrese el código de descuento para el producto ${producto} (DESC10, DESC20 O DESC30)`);
   
-      // Solicitamos al usuario la cantidad de cuotas
-      const cuotas = parseInt(prompt(`Ingrese la cantidad de cuotas para el producto ${producto} (Hasta 3 cuotas sin interés | 15% INTERÉS EN MÁS DE 3 CUOTAS.)`));
-  
+      // Solicitamos al usuario la cantidad de cuotas, asegurándonos de que ingrese un número mayor o igual que 1
+    do {
+      cuotas = parseInt(prompt(`Ingrese la cantidad de cuotas para el producto ${producto} (Hasta 3 cuotas sin interés | 15% INTERÉS EN MÁS DE 3 CUOTAS.)`));
+      if (cuotas < 1) {
+        alert("Ingrese un número mayor o igual que 1 para las cuotas.");
+      }
+    } while (cuotas < 1);
+
       // Llamamos a la función calcularPrecio con los valores ingresados por el usuario
-      const precioFinal = calcularPrecioProducto(precioBase, codigoDescuento, cuotas);
+    const precioFinal = calcularPrecioProducto(precioBase, codigoDescuento, cuotas);
   
       productos.push({
         precioFinal: precioFinal[0],

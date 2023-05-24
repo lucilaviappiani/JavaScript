@@ -4,8 +4,7 @@ const codigosPromocionales = ["DESC10", "DESC20", "DESC30"];
 // Definimos los descuentos correspondientes a los códigos promocionales vigentes
 const descuentos = [0.1, 0.2, 0.3];
 
-
-//utilizamos una clase constructora para crear una plantilla que usaremos para los productos ingresados por el usuario
+// Utilizamos una clase constructora para crear una plantilla que usaremos para los productos ingresados por el usuario
 class Producto {
   constructor(precioBase, codigoDescuento, cuotas) {
     this.precioBase = precioBase;
@@ -14,21 +13,29 @@ class Producto {
     this.precioFinal = 0;
     this.valorCuota = 0;
   }
-//aplicamos el método calcularPrecioFinal al objeto.
-  calcularPrecioFinal() {
-    // Buscamos el índice del código promocional ingresado
-    const indice = codigosPromocionales.indexOf(this.codigoDescuento);
 
-    // Si se encuentra el código promocional, asignamos el descuento correspondiente
-    if (indice !== -1) {
-      const descuento = descuentos[indice];
-      this.precioFinal = this.precioBase - (this.precioBase * descuento);
+  calcularPrecioFinal() {
+    // Comprobamos si se ha proporcionado un código de descuento
+    if (this.codigoDescuento) {
+      // Buscamos el código de descuento en el array de códigos promocionales utilizando el método find()
+      const descuentoEncontrado = codigosPromocionales.find((codigo) => codigo === this.codigoDescuento);
+
+      if (descuentoEncontrado) {
+        // Si el código de descuento se encuentra en la lista, calculamos el descuento correspondiente
+        const indice = codigosPromocionales.indexOf(descuentoEncontrado);
+        const descuento = descuentos[indice];
+        this.precioFinal = this.precioBase - (this.precioBase * descuento);
+      } else {
+        // Si el código de descuento no se encuentra en la lista, mostramos una alerta y no se aplica ningún descuento
+        alert("El código ingresado no pertenece a un descuento vigente, no se aplicará ningún descuento sobre el precio final de este producto");
+        this.precioFinal = this.precioBase;
+      }
     } else {
-      alert("El código ingresado no pertenece a un descuento vigente, no se aplicará ningún descuento sobre el precio final");
+      // Si no se proporciona un código de descuento, el precio final es igual al precio base
       this.precioFinal = this.precioBase;
     }
 
-    // Si se ingresan más de 3 cuotas, se agrega un interés del 15%
+    // Aplicamos el interés del 15% si la cantidad de cuotas es mayor a 3
     if (this.cuotas > 3) {
       this.precioFinal *= 1.15;
     }
@@ -38,9 +45,8 @@ class Producto {
   }
 }
 
-
 function calcularPrecio() {
-  //Creamos un array vacío de productos  
+  // Creamos un array vacío para almacenar los productos
   const productos = [];
   let continuar = true;
   let producto = 1;
@@ -84,12 +90,18 @@ function calcularPrecio() {
   return productos;
 }
 
+// Ejecutamos la función calcularPrecio() para obtener los productos ingresados por el usuario
 const productos = calcularPrecio();
 
+// Utilizamos el método map() para obtener un array con los precios finales formateados a 2 decimales
+const preciosFinales = productos.map((producto) => producto.precioFinal.toFixed(2));
+
+// Construimos el mensaje a mostrar al usuario con los precios finales y valores de las cuotas de los productos
 let mensaje = "Tus productos:\n";
 
 for (let i = 0; i < productos.length; i++) {
-  mensaje += `Producto ${i + 1} - Precio final: $${productos[i].precioFinal.toFixed(2)} - Valor de las cuotas: $${productos[i].valorCuota.toFixed(2)} cada una\n`;
+  mensaje += `Producto ${i + 1} - Precio final: $${preciosFinales[i]} - Valor de las cuotas: $${productos[i].valorCuota.toFixed(2)} cada una\n`;
 }
 
+// Mostramos el mensaje al usuario
 alert(mensaje);

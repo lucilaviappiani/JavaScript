@@ -45,63 +45,112 @@ class Producto {
   }
 }
 
+let productoCount = 1; // Variable para llevar la cuenta de los productos
+
+function eliminarProducto(index) {
+  // Remover la tarjeta del producto de la pantalla
+  const tarjetaProducto = document.getElementById(`producto-${index}`);
+  tarjetaProducto.remove();
+
+  // Eliminar el producto del arreglo de productos guardados en el Local Storage
+  productosGuardados.splice(index, 1);
+  localStorage.setItem('productos', JSON.stringify(productosGuardados));
+}
+
+function crearTarjetaProducto(producto, index) {
+  const cardDiv = document.createElement('div');
+  cardDiv.classList.add('col-md-4', 'mb-4');
+  cardDiv.id = `producto-${index}`;
+
+  const card = document.createElement('div');
+  card.classList.add('card', 'h-100', 'm-1');
+
+  const cardBody = document.createElement('div');
+  cardBody.classList.add('card-body');
+
+  const cardTitle = document.createElement('h5');
+  cardTitle.classList.add('card-title');
+  cardTitle.textContent = `Producto ${productoCount}`;
+
+  const precioInicial = document.createElement('p');
+  precioInicial.classList.add('card-text');
+  precioInicial.textContent = `Precio inicial: $${producto.precioBase.toFixed(2)}`;
+
+  const precioFinal = document.createElement('p');
+  precioFinal.classList.add('card-text');
+  precioFinal.textContent = `Precio con descuentos aplicados: $${producto.precioFinal.toFixed(2)}`;
+
+  const valorCuota = document.createElement('p');
+  valorCuota.classList.add('card-text');
+  valorCuota.textContent = `Valor de las cuotas: $${producto.valorCuota.toFixed(2)} cada una`;
+
+  const botonEliminar = document.createElement('button');
+  botonEliminar.classList.add('btn', 'btn-danger');
+  botonEliminar.textContent = 'Eliminar';
+
+  botonEliminar.addEventListener('click', () => {
+    // Llamar a la función eliminarProducto y pasarle el índice del producto
+    eliminarProducto(index);
+  });
+
+  cardBody.appendChild(cardTitle);
+  cardBody.appendChild(precioInicial);
+  cardBody.appendChild(precioFinal);
+  cardBody.appendChild(valorCuota);
+  cardBody.appendChild(botonEliminar);
+
+  card.appendChild(cardBody);
+  cardDiv.appendChild(card);
+
+  const resultadosDiv = document.getElementById('resultados');
+  resultadosDiv.appendChild(cardDiv);
+
+  productoCount++;
+}
+
 function calcularPrecio() {
-  // Creamos un array vacío para almacenar los productos
-  const productos = [];
-  let continuar = true;
-  let producto = 1;
+  // Obtener el formulario y los campos de entrada utilizando el DOM
+  const form = document.getElementById('calcularForm');
+  const precioBaseInput = document.getElementById('precioBase');
+  const codigoDescuentoInput = document.getElementById('codigoDescuento');
+  const cuotasInput = document.getElementById('cuotas');
 
-  while (continuar) {
-    // Solicitamos al usuario el precio base del producto
-    const precioBase = parseFloat(prompt(`Ingrese el precio base del producto número ${producto}`));
+  // Agregar el evento submit al formulario
+  form.addEventListener('submit', (formSubmit) => {
+    formSubmit.preventDefault(); // Evitar que se envíe el formulario
 
-    // Solicitamos al usuario si tiene un código de descuento
-    const tieneDescuento = confirm("¿Quiere ingresar algún código de descuento?");
-    let codigoDescuento = "";
+    // Obtener los valores ingresados por el usuario
+    const precioBase = parseFloat(precioBaseInput.value);
+    const codigoDescuento = codigoDescuentoInput.value;
+    const cuotas = parseInt(cuotasInput.value);
 
-    if (tieneDescuento) {
-      // Si tiene descuento, solicitamos el código de descuento
-      codigoDescuento = prompt(`Ingrese el código de descuento para el producto ${producto}`);
+    // Verificar si el campo de precio base o cantidad de cuotas están vacíos
+    if (!precioBase || !cuotas) {
+      // Mostrar un mensaje de error o realizar alguna acción apropiada
+      alert('Por favor, complete los campos de precio base y cantidad de cuotas.');
+      return; // Detener la ejecución de la función
     }
 
-    let cuotas;
-    do {
-      // Solicitamos al usuario la cantidad de cuotas, asegurándonos de que ingrese un número mayor o igual que 1
-      cuotas = parseInt(prompt(`Ingrese la cantidad de cuotas para el producto ${producto} (Hasta 3 cuotas sin interés | 15% INTERÉS EN MÁS DE 3 CUOTAS.)`));
-      if (cuotas < 1) {
-        alert("Ingrese un número mayor o igual que 1 para las cuotas.");
-      }
-    } while (cuotas < 1);
-
-    // Creamos un nuevo objeto Producto con los valores ingresados
+    // Crear un nuevo objeto Producto con los valores ingresados
     const nuevoProducto = new Producto(precioBase, codigoDescuento, cuotas);
 
-    // Llamamos al método calcularPrecioFinal() para calcular el precio final y el valor de las cuotas
+    // Llamar al método calcularPrecioFinal() para calcular el precio final y el valor de las cuotas
     nuevoProducto.calcularPrecioFinal();
 
-    // Agregamos el nuevo producto al array de productos
-    productos.push(nuevoProducto);
+    // Obtener los productos guardados en el Local Storage
+    const productosGuardados = JSON.parse(localStorage.getItem('productos')) || [];
 
-    // Preguntamos al usuario si quiere ingresar otro producto
-    continuar = confirm("¿Desea calcular el precio de algún otro producto?");
-    producto++;
-  }
+    // Almacenar el producto en el Local Storage
+    productosGuardados.push(nuevoProducto);
+    localStorage.setItem('productos', JSON.stringify(productosGuardados));
 
-  return productos;
+    // Crear una tarjeta para el producto y mostrarla en el div de resultados
+    crearTarjetaProducto(nuevoProducto, productosGuardados.length - 1);
+
+    // Limpiar los campos del formulario
+    form.reset();
+  });
 }
 
-// Ejecutamos la función calcularPrecio() para obtener los productos ingresados por el usuario
-const productos = calcularPrecio();
-
-// Utilizamos el método map() para obtener un array con los precios finales formateados a 2 decimales
-const preciosFinales = productos.map((producto) => producto.precioFinal.toFixed(2));
-
-// Construimos el mensaje a mostrar al usuario con los precios finales y valores de las cuotas de los productos
-let mensaje = "Tus productos:\n";
-
-for (let i = 0; i < productos.length; i++) {
-  mensaje += `Producto ${i + 1} - Precio final: $${preciosFinales[i]} - Valor de las cuotas: $${productos[i].valorCuota.toFixed(2)} cada una\n`;
-}
-
-// Mostramos el mensaje al usuario
-alert(mensaje);
+// Ejecutamos la función calcularPrecio() al cargar la página para configurar el formulario
+calcularPrecio();

@@ -4,6 +4,8 @@ const codigosPromocionales = ["DESC10", "DESC20", "DESC30"];
 // Definimos los descuentos correspondientes a los códigos promocionales vigentes
 const descuentos = [0.1, 0.2, 0.3];
 
+let productoCount = 1; // Variable para llevar la cuenta de los productos
+
 // Utilizamos una clase constructora para crear una plantilla que usaremos para los productos ingresados por el usuario
 class Producto {
   constructor(precioBase, codigoDescuento, cuotas) {
@@ -45,12 +47,15 @@ class Producto {
   }
 }
 
-let productoCount = 1; // Variable para llevar la cuenta de los productos
+
 
 function eliminarProducto(index) {
   // Remover la tarjeta del producto de la pantalla
   const tarjetaProducto = document.getElementById(`producto-${index}`);
   tarjetaProducto.remove();
+
+  // Obtener los productos guardados en el Local Storage
+  let productosGuardados = JSON.parse(localStorage.getItem('productos')) || [];
 
   // Eliminar el producto del arreglo de productos guardados en el Local Storage
   productosGuardados.splice(index, 1);
@@ -138,7 +143,7 @@ function calcularPrecio() {
     nuevoProducto.calcularPrecioFinal();
 
     // Obtener los productos guardados en el Local Storage
-    const productosGuardados = JSON.parse(localStorage.getItem('productos')) || [];
+    let productosGuardados = JSON.parse(localStorage.getItem('productos')) || [];
 
     // Almacenar el producto en el Local Storage
     productosGuardados.push(nuevoProducto);
@@ -149,6 +154,14 @@ function calcularPrecio() {
 
     // Limpiar los campos del formulario
     form.reset();
+  });
+
+  // Obtener los productos guardados en el Local Storage al cargar la página
+  let productosGuardados = JSON.parse(localStorage.getItem('productos')) || [];
+
+  // Recorrer los productos guardados y crear las tarjetas correspondientes
+  productosGuardados.forEach((producto, index) => {
+    crearTarjetaProducto(producto, index);
   });
 }
 

@@ -47,8 +47,6 @@ class Producto {
   }
 }
 
-
-
 function eliminarProducto(index) {
   // Remover la tarjeta del producto de la pantalla
   const tarjetaProducto = document.getElementById(`producto-${index}`);
@@ -83,7 +81,7 @@ function crearTarjetaProducto(producto, index) {
 
   const precioFinal = document.createElement('p');
   precioFinal.classList.add('card-text');
-  precioFinal.textContent = `Precio con descuentos aplicados: $${producto.precioFinal.toFixed(2)}`;
+  precioFinal.textContent = `Precio con descuentos e intereses aplicados: $${producto.precioFinal.toFixed(2)}`;
 
   const valorCuota = document.createElement('p');
   valorCuota.classList.add('card-text');

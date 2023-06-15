@@ -29,7 +29,13 @@ class Producto {
         this.precioFinal = this.precioBase - (this.precioBase * descuento);
       } else {
         // Si el código de descuento no se encuentra en la lista, mostramos una alerta y no se aplica ningún descuento
-        alert("El código ingresado no pertenece a un descuento vigente, no se aplicará ningún descuento sobre el precio final de este producto");
+        //alert("El código ingresado no pertenece a un descuento vigente, no se aplicará ningún descuento sobre el precio final de este producto");
+        Swal.fire({
+          icon: 'error',
+          title: 'CÓDIGO PROMOCIONAL INCORRECTO',
+          text: 'El código ingresado no pertenece a un descuento vigente, no se aplicará ningún descuento sobre el precio final de este producto!',
+        })
+        
         this.precioFinal = this.precioBase;
       }
     } else {

@@ -64,6 +64,7 @@ function eliminarProducto(index) {
   // Eliminar el producto del arreglo de productos guardados en el Local Storage
   productosGuardados.splice(index, 1);
   localStorage.setItem('productos', JSON.stringify(productosGuardados));
+  
 }
 
 function crearTarjetaProducto(producto, index) {
@@ -100,6 +101,13 @@ function crearTarjetaProducto(producto, index) {
   botonEliminar.addEventListener('click', () => {
     // Llamar a la función eliminarProducto y pasarle el índice del producto
     eliminarProducto(index);
+    Toastify({
+      text: "producto eliminado",
+      duration: 1000,
+      style: {
+        background: "red",
+      },
+      }).showToast();
   });
 
   cardBody.appendChild(cardTitle);

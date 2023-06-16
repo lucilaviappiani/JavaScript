@@ -22,31 +22,25 @@ class Producto {
       // Buscamos el código de descuento en el array de códigos promocionales utilizando el método find()
       const descuentoEncontrado = codigosPromocionales.find((codigo) => codigo === this.codigoDescuento);
 
-      if (descuentoEncontrado) {
-        // Si el código de descuento se encuentra en la lista, calculamos el descuento correspondiente
-        const indice = codigosPromocionales.indexOf(descuentoEncontrado);
-        const descuento = descuentos[indice];
-        this.precioFinal = this.precioBase - (this.precioBase * descuento);
-      } else {
-        // Si el código de descuento no se encuentra en la lista, mostramos una alerta y no se aplica ningún descuento
-        //alert("El código ingresado no pertenece a un descuento vigente, no se aplicará ningún descuento sobre el precio final de este producto");
+      this.precioFinal = descuentoEncontrado
+      ? this.precioBase - (this.precioBase * descuentos[codigosPromocionales.indexOf(descuentoEncontrado)])
+      : (() => {
         Swal.fire({
           icon: 'error',
           title: 'CÓDIGO PROMOCIONAL INCORRECTO',
           text: 'El código ingresado no pertenece a un descuento vigente, no se aplicará ningún descuento sobre el precio final de este producto!',
-        })
-        
-        this.precioFinal = this.precioBase;
-      }
+        });
+        return this.precioBase;
+      })();
+    
     } else {
       // Si no se proporciona un código de descuento, el precio final es igual al precio base
       this.precioFinal = this.precioBase;
     }
 
     // Aplicamos el interés del 15% si la cantidad de cuotas es mayor a 3
-    if (this.cuotas > 3) {
-      this.precioFinal *= 1.15;
-    }
+    this.precioFinal = this.cuotas > 3 ? this.precioFinal * 1.15 : this.precioFinal;
+
 
     // Calculamos el valor de las cuotas
     this.valorCuota = this.precioFinal / this.cuotas;
@@ -144,7 +138,7 @@ function calcularPrecio() {
     // Verificar si el campo de precio base o cantidad de cuotas están vacíos
     if (!precioBase || !cuotas) {
       // Mostrar un mensaje de error o realizar alguna acción apropiada
-      alert('Por favor, complete los campos de precio base y cantidad de cuotas.');
+      Swal.fire('Por favor, complete los campos de precio base y cantidad de cuotas.');
       return; // Detener la ejecución de la función
     }
 

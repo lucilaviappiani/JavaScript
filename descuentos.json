@@ -1,0 +1,43 @@
+[
+    {
+      "codigo": "DESC10",
+      "descuento": 0.1
+    },
+    {
+      "codigo": "DESC20",
+      "descuento": 0.2
+    },
+    {
+      "codigo": "DESC30",
+      "descuento": 0.3
+    },
+    {
+        "codigo": "VERANO15",
+        "descuento": 0.15
+    },
+    {
+        "codigo": "DESCUENTO20",
+        "descuento": 0.20
+    },
+    {
+        "codigo": "OFERTA10",
+        "descuento": 0.10
+    },
+    {
+        "codigo": "AHORRA25",
+        "descuento": 0.25
+    },
+    {
+        "codigo": "PROMO30",
+        "descuento": 0.30
+    },
+    {
+        "codigo": "REBAJA50",
+        "descuento": 0.50
+    },
+    {
+        "codigo": "DESCUENTOFAMILIAR",
+        "descuento": 0.15
+    }
+  ]
+  

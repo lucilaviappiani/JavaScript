@@ -1,0 +1,32 @@
+body{
+    background-image: url(../media/caja-paquetes-o-cajas-carton-smartphone-concepto-logistica-transporte-entrega-linea-sobre-fondo-rosa-ilustracion-renderizado-3d.jpg);
+    background-repeat: no-repeat;
+    background-size: fill;
+}
+
+.tituloPrincipal{
+    font-family: 'MuseoModerno', cursive;;
+    font-size: 70px;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.tituloSecundario{
+    font-family: 'MuseoModerno', cursive;;
+    font-size: 50px;
+    font-weight: bolder;
+    text-align: center;
+}
+
+
+
+.tituloInput{
+    font-family: 'MuseoModerno', cursive;;
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.btnCustom {
+    background-color: rgb(255, 25, 129);
+    border-color: rgb(255, 25, 129) ;
+}

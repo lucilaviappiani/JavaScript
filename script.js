@@ -4,6 +4,7 @@ const codigosPromocionales = ["DESC10", "DESC20", "DESC30"];
 // Definimos los descuentos correspondientes a los códigos promocionales vigentes
 const descuentos = [0.1, 0.2, 0.3];
 
+
 let productoCount = 1; // Variable para llevar la cuenta de los productos
 
 // Utilizamos una clase constructora para crear una plantilla que usaremos para los productos ingresados por el usuario
@@ -58,6 +59,14 @@ function eliminarProducto(index) {
   // Eliminar el producto del arreglo de productos guardados en el Local Storage
   productosGuardados.splice(index, 1);
   localStorage.setItem('productos', JSON.stringify(productosGuardados));
+
+  // Actualizar la numeración de los productos
+  const tarjetasProductos = document.getElementsByClassName('card');
+  for (let i = 0; i < tarjetasProductos.length; i++) {
+    tarjetasProductos[i].querySelector('.card-title').textContent = `Producto ${i + 1}`;
+    tarjetasProductos[i].id = `producto-${i}`;
+    tarjetasProductos[i].querySelector('button').setAttribute('onclick', `eliminarProducto(${i})`);
+  }
   
 }
 
@@ -99,7 +108,7 @@ function crearTarjetaProducto(producto, index) {
       text: "producto eliminado",
       duration: 1000,
       style: {
-        background: "red",
+        background: "pink",
       },
       }).showToast();
   });

@@ -1,9 +1,17 @@
-// Definimos el array de códigos promocionales vigentes
-const codigosPromocionales = ["DESC10", "DESC20", "DESC30"];
+// Definimos los arrays de códigos promocionales y descuentos
+const codigosPromocionales = [];
+const descuentos = [];
 
-// Definimos los descuentos correspondientes a los códigos promocionales vigentes
-const descuentos = [0.1, 0.2, 0.3];
 
+// Cargar los datos desde el archivo JSON utilizando fetch y promesas. Obtener los códigos promocionales y descuentos del JSON
+fetch('/descuentos.json')
+  .then((res) => res.json())
+  .then((data) => {
+    data.forEach((descuento) => {
+      codigosPromocionales.push(descuento.codigo);
+      descuentos.push(descuento.descuento);
+    });
+  });
 
 let productoCount = 1; // Variable para llevar la cuenta de los productos
 
@@ -182,3 +190,4 @@ function calcularPrecio() {
 
 // Ejecutamos la función calcularPrecio() al cargar la página para configurar el formulario
 calcularPrecio();
+

@@ -1,8 +1,11 @@
+/* ESTILOS GENERALES BODY*/
 body{
     background-image: url(../media/caja-paquetes-o-cajas-carton-smartphone-concepto-logistica-transporte-entrega-linea-sobre-fondo-rosa-ilustracion-renderizado-3d.jpg);
     background-repeat: no-repeat;
     background-size: fill;
 }
+
+/* ESTILOS TÍTULOS PRINCIPALES */
 
 .tituloPrincipal{
     font-family: 'MuseoModerno', cursive;;
@@ -19,14 +22,65 @@ body{
 }
 
 
-
+/* ESTILOS DEL FORM*/
 .tituloInput{
     font-family: 'MuseoModerno', cursive;;
     font-size: 20px;
     font-weight: bolder;
 }
 
+.inputCustom{
+    height: 47px;
+}
+
 .btnCustom {
     background-color: rgb(255, 25, 129);
     border-color: rgb(255, 25, 129) ;
 }
+
+.btnCustom:hover,
+.btnCustom:active {
+    background-color: rgb(151, 17, 77) !important;
+    border-color: rgb(151, 17, 77)!important ;
+  }
+
+  /* ESTILOS CARDS*/
+
+.card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    width: 210px;
+  }
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-title {
+    text-align: center;
+    font-family: 'MuseoModerno', cursive;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+.card-text{
+    font-family: 'MuseoModerno', cursive;
+    font-size: 15px;
+    font-weight: lighter;
+    margin-bottom: 10px;
+}
+
+.btn-danger {
+    background-color: #cf0072;
+    border-color: #cf0072;
+  }
+  
+  .btn-danger:hover,
+  .btn-danger:active {
+    background-color: #cf0072 !important;
+    border-color: #cf0072 !important;
+  }

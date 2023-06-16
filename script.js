@@ -63,7 +63,7 @@ function eliminarProducto(index) {
   // Actualizar la numeración de los productos
   const tarjetasProductos = document.getElementsByClassName('card');
   for (let i = 0; i < tarjetasProductos.length; i++) {
-    tarjetasProductos[i].querySelector('.card-title').textContent = `Producto ${i + 1}`;
+    tarjetasProductos[i].querySelector('.card-title').textContent = `PRODUCTO ${i + 1}`;
     tarjetasProductos[i].id = `producto-${i}`;
     tarjetasProductos[i].querySelector('button').setAttribute('onclick', `eliminarProducto(${i})`);
   }
@@ -83,7 +83,7 @@ function crearTarjetaProducto(producto, index) {
 
   const cardTitle = document.createElement('h5');
   cardTitle.classList.add('card-title');
-  cardTitle.textContent = `Producto ${productoCount}`;
+  cardTitle.textContent = `PRODUCTO ${productoCount}`;
 
   const precioInicial = document.createElement('p');
   precioInicial.classList.add('card-text');

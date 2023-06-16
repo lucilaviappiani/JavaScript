@@ -1,8 +1,9 @@
 /* ESTILOS GENERALES BODY*/
 body{
     background-image: url(../media/caja-paquetes-o-cajas-carton-smartphone-concepto-logistica-transporte-entrega-linea-sobre-fondo-rosa-ilustracion-renderizado-3d.jpg);
+    background-size: cover;
     background-repeat: no-repeat;
-    background-size: fill;
+    background-position: center;
 }
 
 /* ESTILOS TÍTULOS PRINCIPALES */
